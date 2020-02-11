@@ -84,6 +84,9 @@ parser.add_argument(
 parser.add_argument(
     "-W", "--without", action="append", default=[], help="Addons to exclude always."
 )
+parser.add_argument(
+    "--database", type=str, default="devel", help="Specify database to use"
+)
 
 # Generate the matching addons set
 args = parser.parse_args()
@@ -139,6 +142,6 @@ else:
     if args.test:
         command += ["--test-enable", "--workers", "0"]
         if os.environ.get("PGDATABASE"):
-            command += ["--db-filter", u"^{}$".format(os.environ.get("PGDATABASE"))]
+            command += ["--db-filter", u"^{}$".format(args.database)]
     logger.info("Executing %s", " ".join(command))
     check_call(command)
